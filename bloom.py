@@ -46,7 +46,7 @@ class HashType1(object):
 
         # your code goes here
         for i in range (0,self.k,1):
-            hashed=self.seeds[i]+x
+            hashed=(self.seeds[i]+x)%self.n
             res.append(hashed)
 
         return res
@@ -75,9 +75,9 @@ class HashType2(object):
         #if not gen (task 2), then use hashes that are in config dictionary
         else :
             self.a = config['a']
-            self.b = config['b']           
-            
-            
+            self.b = config['b']
+        self.P = util.findNextPrime(self.N)
+
     def getHashList(self, x):
         """
         Return list of k hashes of the passed integer, using 
@@ -91,9 +91,8 @@ class HashType2(object):
         res = []
         
         #your code goes here
-        P = util.findNextPrime(self.N)
         for i in range (0,self.k,1):
-            hashed=(self.a[i]*x+self.b[i]%P)%self.n
+            hashed=(self.a[i]*x+(self.b[i]%self.P))%self.n
             res.append(hashed)
 
         return res
@@ -140,9 +139,9 @@ class BloomFilter(object):
             
         
         #your code goes here
-        self.bftalbe=[]
-        for i in range(0,config['n']):
-            self.bftalbe.append(0)
+        self.bftable=[]
+        for i in range(0, config['n'], 1):
+            self.bftable.append(0)
 
 
     def add(self, x):
@@ -153,9 +152,7 @@ class BloomFilter(object):
         #your code goes here
         res = self.hashFunc.getHashList(x)
         for e in res:
-            self.bftalbe[e]=1
-        
-
+            self.bftable[e]=1
         pass
     
 
@@ -171,11 +168,10 @@ class BloomFilter(object):
 
         res = self.hashFunc.getHashList(x)
         for e in res:
-            if (self.bftalbe[e] == 1):
-                return True
+            if self.bftable[e] == 0:
+                return False
 
-
-        return False
+        return True
 
 
 
