@@ -46,8 +46,8 @@ class HashType1(object):
 
         # your code goes here
         for i in range (0,self.k,1):
-            hashed=(self.seeds[i]+x)%self.n
-            res.append(hashed)
+            random.seed(self.seeds[i]+x)
+            res.append(random.randint(0,self.n))
 
         return res
 
@@ -92,7 +92,7 @@ class HashType2(object):
         
         #your code goes here
         for i in range (0,self.k,1):
-            hashed=(self.a[i]*x+(self.b[i]%self.P))%self.n
+            hashed=((self.a[i]*x+self.b[i])%self.P)%self.n
             res.append(hashed)
 
         return res
